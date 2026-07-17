@@ -132,11 +132,14 @@
       }
 
       .model-image {
-        display: block;
-        width: 100%;
-        aspect-ratio: 4 / 5;
-        object-fit: cover;
-      }
+  display: block;
+  width: 100%;
+  max-width: 260px;   /* smaller image */
+  margin: 0 auto;     /* center image */
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 10px;
+}
 
       .model-caption {
         padding: 10px 12px;
