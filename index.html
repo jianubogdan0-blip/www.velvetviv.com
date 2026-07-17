@@ -4,13 +4,263 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cabin In The Woods Stream</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      :root {
+        /* Replace this URL with your own image URL to use your photo as the full-page background. */
+        --bg-image: url("https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=2000&q=80");
+        --overlay-dark: rgba(17, 22, 16, 0.7);
+        --overlay-soft: rgba(55, 46, 28, 0.42);
+        --card-bg: rgba(16, 18, 17, 0.64);
+        --card-border: rgba(241, 225, 184, 0.24);
+        --text: #f7efdb;
+        --muted: #d7c8a3;
+        --accent: #f4b74f;
+        --accent-strong: #ffcc74;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: "Manrope", sans-serif;
+        color: var(--text);
+        background-image: var(--bg-image);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        position: relative;
+      }
+
+      .bg-overlay {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(150deg, var(--overlay-dark), var(--overlay-soft));
+        z-index: 0;
+      }
+
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        width: min(1080px, 92vw);
+        margin: 0 auto;
+        padding: 28px 0 44px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .card {
+        backdrop-filter: blur(8px);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        animation: rise-in 480ms ease both;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .tag {
+        margin: 0;
+        color: var(--accent-strong);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.74rem;
+      }
+
+      h1,
+      h2 {
+        font-family: "Cinzel", serif;
+        margin: 0 0 10px;
+      }
+
+      h1 {
+        font-size: clamp(1.85rem, 4vw, 3rem);
+      }
+
+      h2 {
+        font-size: clamp(1.22rem, 2.4vw, 1.7rem);
+      }
+
+      .subtitle,
+      .muted {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .schedule-list,
+      .tippers-list {
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+      }
+
+      .schedule-list li,
+      .tippers-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid rgba(247, 239, 219, 0.15);
+        padding: 10px 0;
+      }
+
+      .progress-head {
+        margin-top: 6px;
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+        font-weight: 800;
+      }
+
+      #raisedAmount {
+        font-size: 1.55rem;
+        color: var(--accent-strong);
+      }
+
+      .progress-track {
+        margin: 12px 0 10px;
+        width: 100%;
+        height: 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.17);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #ffd9a0);
+        transition: width 350ms ease;
+      }
+
+      .goal-form,
+      .tipper-form {
+        margin-top: 12px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .input-row,
+      .input-grid {
+        display: grid;
+        gap: 9px;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr auto;
+      }
+
+      .input-grid {
+        grid-template-columns: 1.1fr 0.8fr auto;
+      }
+
+      input,
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 12px;
+        font: inherit;
+      }
+
+      input {
+        color: #111;
+      }
+
+      button {
+        background: var(--accent);
+        color: #2f210c;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(1.08);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+        flex-wrap: wrap;
+      }
+
+      .remove-btn {
+        background: rgba(248, 95, 95, 0.18);
+        color: #ffd1d1;
+        border: 1px solid rgba(255, 158, 158, 0.5);
+        padding: 5px 9px;
+        font-size: 0.8rem;
+        border-radius: 8px;
+      }
+
+      .tipper-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      @keyframes rise-in {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .grid-two {
+          grid-template-columns: 1fr;
+        }
+
+        .input-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .input-row {
+          grid-template-columns: 1fr;
+        }
+
+        .schedule-list li,
+        .tippers-list li {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="bg-overlay"></div>
@@ -74,406 +324,152 @@
       </section>
     </main>
 
-    <script src="script.js"></script>
-  </body>
-</html>
-const GOAL_TOTAL = 35000;
-const STORAGE_KEY_AMOUNT = "cabin_goal_raised";
-const STORAGE_KEY_TIPPERS = "cabin_top_tippers";
+    <script>
+      const GOAL_TOTAL = 35000;
+      const STORAGE_KEY_AMOUNT = "cabin_goal_raised";
+      const STORAGE_KEY_TIPPERS = "cabin_top_tippers";
 
-const defaultTippers = [
-  { name: "MoonRider", amount: 420 },
-  { name: "ForestEcho", amount: 300 },
-  { name: "NightOwl", amount: 220 }
-];
+      const defaultTippers = [
+        { name: "MoonRider", amount: 420 },
+        { name: "ForestEcho", amount: 300 },
+        { name: "NightOwl", amount: 220 }
+      ];
 
-const raisedAmountEl = document.getElementById("raisedAmount");
-const goalAmountEl = document.getElementById("goalAmount");
-const progressFillEl = document.getElementById("progressFill");
-const progressPercentEl = document.getElementById("progressPercent");
-const goalForm = document.getElementById("goalForm");
-const currentRaisedInput = document.getElementById("currentRaised");
-const tippersList = document.getElementById("tippersList");
-const tipperForm = document.getElementById("tipperForm");
-const tipperNameInput = document.getElementById("tipperName");
-const tipperAmountInput = document.getElementById("tipperAmount");
+      const raisedAmountEl = document.getElementById("raisedAmount");
+      const goalAmountEl = document.getElementById("goalAmount");
+      const progressFillEl = document.getElementById("progressFill");
+      const progressPercentEl = document.getElementById("progressPercent");
+      const goalForm = document.getElementById("goalForm");
+      const currentRaisedInput = document.getElementById("currentRaised");
+      const tippersList = document.getElementById("tippersList");
+      const tipperForm = document.getElementById("tipperForm");
+      const tipperNameInput = document.getElementById("tipperName");
+      const tipperAmountInput = document.getElementById("tipperAmount");
 
-goalAmountEl.textContent = `/ ${formatCurrency(GOAL_TOTAL)}`;
+      goalAmountEl.textContent = `/ ${formatCurrency(GOAL_TOTAL)}`;
 
-let raisedAmount = loadRaisedAmount();
-let tippers = loadTippers();
+      let raisedAmount = loadRaisedAmount();
+      let tippers = loadTippers();
 
-renderProgress();
-renderTippers();
+      renderProgress();
+      renderTippers();
 
-goalForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const nextValue = Number(currentRaisedInput.value);
+      goalForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const nextValue = Number(currentRaisedInput.value);
 
-  if (Number.isNaN(nextValue) || nextValue < 0) {
-    return;
-  }
+        if (Number.isNaN(nextValue) || nextValue < 0) return;
 
-  raisedAmount = nextValue;
-  localStorage.setItem(STORAGE_KEY_AMOUNT, String(raisedAmount));
-  renderProgress();
-  goalForm.reset();
-});
-
-tipperForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const name = tipperNameInput.value.trim();
-  const amount = Number(tipperAmountInput.value);
-
-  if (!name || Number.isNaN(amount) || amount <= 0) {
-    return;
-  }
-
-  const existing = tippers.find((tipper) => tipper.name.toLowerCase() === name.toLowerCase());
-
-  if (existing) {
-    existing.amount = amount;
-  } else {
-    tippers.push({ name, amount });
-  }
-
-  tippers.sort((a, b) => b.amount - a.amount);
-  saveTippers();
-  renderTippers();
-  tipperForm.reset();
-});
-
-function renderProgress() {
-  const safeRaised = Math.max(0, raisedAmount);
-  const ratio = Math.min(safeRaised / GOAL_TOTAL, 1);
-  const percent = Math.round(ratio * 100);
-
-  raisedAmountEl.textContent = formatCurrency(safeRaised);
-  progressFillEl.style.width = `${percent}%`;
-  progressPercentEl.textContent = `${percent}% funded`;
-}
-
-function renderTippers() {
-  tippersList.innerHTML = "";
-
-  tippers
-    .slice()
-    .sort((a, b) => b.amount - a.amount)
-    .forEach((tipper, index) => {
-      const item = document.createElement("li");
-      const rank = document.createElement("span");
-      const meta = document.createElement("div");
-      const amount = document.createElement("strong");
-      const removeBtn = document.createElement("button");
-
-      rank.textContent = `${index + 1}. ${tipper.name}`;
-      amount.textContent = formatCurrency(tipper.amount);
-
-      meta.className = "tipper-meta";
-      removeBtn.className = "remove-btn";
-      removeBtn.textContent = "Remove";
-      removeBtn.type = "button";
-
-      removeBtn.addEventListener("click", () => {
-        tippers = tippers.filter((entry) => entry.name !== tipper.name);
-        saveTippers();
-        renderTippers();
+        raisedAmount = nextValue;
+        localStorage.setItem(STORAGE_KEY_AMOUNT, String(raisedAmount));
+        renderProgress();
+        goalForm.reset();
       });
 
-      meta.appendChild(amount);
-      meta.appendChild(removeBtn);
-      item.appendChild(rank);
-      item.appendChild(meta);
-      tippersList.appendChild(item);
-    });
-}
+      tipperForm.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-function loadRaisedAmount() {
-  const raw = localStorage.getItem(STORAGE_KEY_AMOUNT);
-  const parsed = Number(raw);
-  if (Number.isNaN(parsed) || parsed < 0) {
-    return 0;
-  }
-  return parsed;
-}
+        const name = tipperNameInput.value.trim();
+        const amount = Number(tipperAmountInput.value);
 
-function loadTippers() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_TIPPERS);
-    if (!raw) {
-      return defaultTippers;
-    }
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) {
-      return defaultTippers;
-    }
+        if (!name || Number.isNaN(amount) || amount <= 0) return;
 
-    return parsed
-      .filter((entry) => entry && typeof entry.name === "string" && Number.isFinite(entry.amount))
-      .map((entry) => ({ name: entry.name.trim(), amount: Math.max(0, Number(entry.amount)) }))
-      .filter((entry) => entry.name.length > 0);
-  } catch {
-    return defaultTippers;
-  }
-}
+        const existing = tippers.find((tipper) => tipper.name.toLowerCase() === name.toLowerCase());
 
-function saveTippers() {
-  localStorage.setItem(STORAGE_KEY_TIPPERS, JSON.stringify(tippers));
-}
+        if (existing) {
+          existing.amount = amount;
+        } else {
+          tippers.push({ name, amount });
+        }
 
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0
-  }).format(value);
-}
-:root {
-  /* Replace this URL with your own image URL to use your photo as the full-page background. */
-  --bg-image: url("https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=2000&q=80");
-  --overlay-dark: rgba(17, 22, 16, 0.7);
-  --overlay-soft: rgba(55, 46, 28, 0.42);
-  --card-bg: rgba(16, 18, 17, 0.64);
-  --card-border: rgba(241, 225, 184, 0.24);
-  --text: #f7efdb;
-  --muted: #d7c8a3;
-  --accent: #f4b74f;
-  --accent-strong: #ffcc74;
-  --good: #8ce58b;
-}
+        tippers.sort((a, b) => b.amount - a.amount);
+        saveTippers();
+        renderTippers();
+        tipperForm.reset();
+      });
 
-* {
-  box-sizing: border-box;
-}
+      function renderProgress() {
+        const safeRaised = Math.max(0, raisedAmount);
+        const ratio = Math.min(safeRaised / GOAL_TOTAL, 1);
+        const percent = Math.round(ratio * 100);
 
-html,
-body {
-  margin: 0;
-  min-height: 100%;
-}
+        raisedAmountEl.textContent = formatCurrency(safeRaised);
+        progressFillEl.style.width = `${percent}%`;
+        progressPercentEl.textContent = `${percent}% funded`;
+      }
 
-body {
-  font-family: "Manrope", sans-serif;
-  color: var(--text);
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  position: relative;
-}
+      function renderTippers() {
+        tippersList.innerHTML = "";
 
-.bg-overlay {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(150deg, var(--overlay-dark), var(--overlay-soft));
-  z-index: 0;
-}
+        tippers
+          .slice()
+          .sort((a, b) => b.amount - a.amount)
+          .forEach((tipper, index) => {
+            const item = document.createElement("li");
+            const rank = document.createElement("span");
+            const meta = document.createElement("div");
+            const amount = document.createElement("strong");
+            const removeBtn = document.createElement("button");
 
-.page-wrap {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  width: min(1080px, 92vw);
-  margin: 0 auto;
-  padding: 28px 0 44px;
-  display: grid;
-  gap: 18px;
-}
+            rank.textContent = `${index + 1}. ${tipper.name}`;
+            amount.textContent = formatCurrency(tipper.amount);
 
-.card {
-  backdrop-filter: blur(8px);
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  animation: rise-in 480ms ease both;
-}
+            meta.className = "tipper-meta";
+            removeBtn.className = "remove-btn";
+            removeBtn.textContent = "Remove";
+            removeBtn.type = "button";
 
-.hero {
-  text-align: center;
-}
+            removeBtn.addEventListener("click", () => {
+              tippers = tippers.filter((entry) => entry.name !== tipper.name);
+              saveTippers();
+              renderTippers();
+            });
 
-.tag {
-  margin: 0;
-  color: var(--accent-strong);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 0.74rem;
-}
+            meta.appendChild(amount);
+            meta.appendChild(removeBtn);
+            item.appendChild(rank);
+            item.appendChild(meta);
+            tippersList.appendChild(item);
+          });
+      }
 
-h1,
-h2 {
-  font-family: "Cinzel", serif;
-  margin: 0 0 10px;
-}
+      function loadRaisedAmount() {
+        const raw = localStorage.getItem(STORAGE_KEY_AMOUNT);
+        const parsed = Number(raw);
+        if (Number.isNaN(parsed) || parsed < 0) return 0;
+        return parsed;
+      }
 
-h1 {
-  font-size: clamp(1.85rem, 4vw, 3rem);
-}
+      function loadTippers() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY_TIPPERS);
+          if (!raw) return defaultTippers;
 
-h2 {
-  font-size: clamp(1.22rem, 2.4vw, 1.7rem);
-}
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) return defaultTippers;
 
-.subtitle,
-.muted {
-  margin: 0;
-  color: var(--muted);
-}
+          return parsed
+            .filter((entry) => entry && typeof entry.name === "string" && Number.isFinite(entry.amount))
+            .map((entry) => ({ name: entry.name.trim(), amount: Math.max(0, Number(entry.amount)) }))
+            .filter((entry) => entry.name.length > 0);
+        } catch {
+          return defaultTippers;
+        }
+      }
 
-.grid-two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
+      function saveTippers() {
+        localStorage.setItem(STORAGE_KEY_TIPPERS, JSON.stringify(tippers));
+      }
 
-.schedule-list,
-.tippers-list {
-  list-style: none;
-  margin: 14px 0 0;
-  padding: 0;
-}
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0
+        }).format(value);
+      }
+    </script>
+  </body>
+</html>
 
-.schedule-list li,
-.tippers-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  border-bottom: 1px solid rgba(247, 239, 219, 0.15);
-  padding: 10px 0;
-}
-
-.progress-head {
-  margin-top: 6px;
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-  font-weight: 800;
-}
-
-#raisedAmount {
-  font-size: 1.55rem;
-  color: var(--accent-strong);
-}
-
-.progress-track {
-  margin: 12px 0 10px;
-  width: 100%;
-  height: 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.17);
-  overflow: hidden;
-}
-
-.progress-fill {
-  width: 0;
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), #ffd9a0);
-  transition: width 350ms ease;
-}
-
-.goal-form,
-.tipper-form {
-  margin-top: 12px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.input-row,
-.input-grid {
-  display: grid;
-  gap: 9px;
-}
-
-.input-row {
-  grid-template-columns: 1fr auto;
-}
-
-.input-grid {
-  grid-template-columns: 1.1fr 0.8fr auto;
-}
-
-input,
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 11px 12px;
-  font: inherit;
-}
-
-input {
-  color: #111;
-}
-
-button {
-  background: var(--accent);
-  color: #2f210c;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-button:hover {
-  filter: brightness(1.08);
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: baseline;
-  flex-wrap: wrap;
-}
-
-.remove-btn {
-  background: rgba(248, 95, 95, 0.18);
-  color: #ffd1d1;
-  border: 1px solid rgba(255, 158, 158, 0.5);
-  padding: 5px 9px;
-  font-size: 0.8rem;
-  border-radius: 8px;
-}
-
-.tipper-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 900px) {
-  .grid-two {
-    grid-template-columns: 1fr;
-  }
-
-  .input-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .input-row {
-    grid-template-columns: 1fr;
-  }
-
-  .schedule-list li,
-  .tippers-list li {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+    
