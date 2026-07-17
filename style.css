@@ -1,0 +1,207 @@
+/* ─────────────────────────────────────────────────────────
+   VelvetViv — style.css
+   ───────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+/* ─── FULL-PAGE BACKGROUND PHOTO ─── */
+.bg-photo {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Semi-transparent dark overlay so cards are readable */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+/* ─── MAIN CONTENT ─── */
+.content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 60px;
+  gap: 28px;
+}
+
+/* Site title */
+.site-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffb6c1;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+}
+
+/* ─── CARD ─── */
+.card {
+  background: rgba(20, 10, 15, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 182, 193, 0.25);
+  border-radius: 16px;
+  padding: 28px 32px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffb6c1;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ─── SCHEDULE ─── */
+.schedule-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.schedule-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 10px;
+}
+
+.schedule-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.schedule-list .day {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.schedule-list .time {
+  font-size: 0.95rem;
+  color: #f0c0c8;
+}
+
+.schedule-list .time em {
+  font-style: normal;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* ─── GOAL ─── */
+.goal-name {
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  color: #ffd6e0;
+}
+
+.goal-bar-wrap {
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  height: 18px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.goal-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff85a1, #ff4d79);
+  transition: width 0.6s ease;
+  min-width: 0;
+}
+
+.goal-amounts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #ffd6e0;
+}
+
+/* ─── TOP TIPPERS ─── */
+.tippers-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: tipper;
+}
+
+.tippers-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 12px;
+}
+
+.tippers-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tippers-list .medal {
+  font-size: 1.3rem;
+  min-width: 28px;
+  text-align: center;
+}
+
+.tippers-list .tipper-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.tippers-list .tipper-amount {
+  font-size: 0.95rem;
+  color: #ffb6c1;
+  font-weight: 600;
+}
+
+.tippers-list .empty {
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  font-size: 0.95rem;
+  border: none;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px 18px;
+  }
+
+  .schedule-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}

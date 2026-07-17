@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VelvetViv</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =============================================
+       BACKGROUND PHOTO
+       Replace "photo.jpg" with your image filename
+       (set via JS in the EASY-EDIT SECTION below)
+       ============================================= -->
+  <div class="bg-photo" id="bgPhoto"></div>
+
+  <!-- Dark overlay so text stays readable -->
+  <div class="overlay"></div>
+
+  <!-- =============================================
+       MAIN CONTENT
+       ============================================= -->
+  <main class="content">
+
+    <!-- Site title -->
+    <h1 class="site-title">VelvetViv</h1>
+
+    <!-- ─── SCHEDULE ─────────────────────────────── -->
+    <section class="card schedule-card">
+      <h2>📅 Schedule</h2>
+      <ul class="schedule-list">
+        <!--
+          To change hours, edit the time in each <span class="time"> below.
+          To remove a day, delete the whole <li>.
+          To add a day, copy a <li> and change the text.
+        -->
+        <li><span class="day">Wednesday</span><span class="time">20:30 – 02:30 <em>UTC+3</em></span></li>
+        <li><span class="day">Thursday</span> <span class="time">20:30 – 02:30 <em>UTC+3</em></span></li>
+        <li><span class="day">Friday</span>   <span class="time">20:30 – 02:30 <em>UTC+3</em></span></li>
+        <li><span class="day">Saturday</span> <span class="time">20:30 – 02:30 <em>UTC+3</em></span></li>
+        <li><span class="day">Sunday</span>   <span class="time">20:30 – 02:30 <em>UTC+3</em></span></li>
+      </ul>
+    </section>
+
+    <!-- ─── GOAL ──────────────────────────────────── -->
+    <section class="card goal-card">
+      <h2>🎯 Goal</h2>
+      <p class="goal-name">🏡 Cabin in the Woods</p>
+      <div class="goal-bar-wrap">
+        <div class="goal-bar" id="goalBar"></div>
+      </div>
+      <p class="goal-amounts">
+        <span id="currentAmount"></span>
+        <span id="goalAmount"></span>
+      </p>
+    </section>
+
+    <!-- ─── TOP TIPPERS ───────────────────────────── -->
+    <section class="card tippers-card">
+      <h2>💖 Top Tippers</h2>
+      <ol class="tippers-list" id="tippersList"></ol>
+    </section>
+
+  </main>
+
+  <script>
+    // =================================================
+    //  EASY-EDIT SECTION — change these values anytime
+    // =================================================
+
+    // Background photo filename (place the file in the same folder as index.html)
+    const backgroundPhoto = 'photo.jpg';
+
+    // Goal: amount already raised (update this when you receive tips)
+    const currentRaised = 0;          // e.g. 12500
+
+    // Goal: total target amount
+    const goalTarget = 35000;
+
+    // Top tippers list — add, remove or reorder entries here.
+    // Format: { name: "nickname", amount: number }
+    const topTippers = [
+      // { name: "username1", amount: 500 },
+      // { name: "username2", amount: 300 },
+      // { name: "username3", amount: 150 },
+    ];
+
+    // =================================================
+    //  DO NOT EDIT BELOW THIS LINE
+    // =================================================
+
+    // Set background photo
+    document.getElementById('bgPhoto').style.backgroundImage =
+      'url(' + CSS.escape(backgroundPhoto) + ')';
+
+    // Render goal bar
+    (function renderGoal() {
+      const pct = Math.min((currentRaised / goalTarget) * 100, 100);
+      document.getElementById('goalBar').style.width = pct + '%';
+      document.getElementById('goalBar').setAttribute('title', pct.toFixed(1) + '% reached');
+      document.getElementById('currentAmount').textContent =
+        '$' + currentRaised.toLocaleString('en-US');
+      document.getElementById('goalAmount').textContent =
+        '/ $' + goalTarget.toLocaleString('en-US');
+    })();
+
+    // Render tippers
+    (function renderTippers() {
+      const list = document.getElementById('tippersList');
+      if (topTippers.length === 0) {
+        list.innerHTML = '<li class="empty">Be the first top tipper! 💝</li>';
+        return;
+      }
+      topTippers
+        .sort((a, b) => b.amount - a.amount)
+        .forEach(function(t, i) {
+          const li = document.createElement('li');
+          const medal = ['🥇','🥈','🥉'][i] || '💛';
+
+          const medalSpan = document.createElement('span');
+          medalSpan.className = 'medal';
+          medalSpan.textContent = medal;
+
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'tipper-name';
+          nameSpan.textContent = t.name;
+
+          const amountSpan = document.createElement('span');
+          amountSpan.className = 'tipper-amount';
+          amountSpan.textContent = '$' + t.amount.toLocaleString('en-US');
+
+          li.appendChild(medalSpan);
+          li.appendChild(nameSpan);
+          li.appendChild(amountSpan);
+          list.appendChild(li);
+        });
+    })();
+  </script>
+
+</body>
+</html>
