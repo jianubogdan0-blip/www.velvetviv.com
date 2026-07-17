@@ -484,10 +484,42 @@ body {
       const donationNoticeEl = document.getElementById("donationNotice");
       const goalForm = document.getElementById("goalForm");
       const currentRaisedInput = document.getElementById("currentRaised");
-      const tippersList = document.getElementById("tippersList");
-      const tipperForm = document.getElementById("tipperForm");
-      const tipperNameInput = document.getElementById("tipperName");
-      const tipperAmountInput = document.getElementById("tipperAmount");
+      <script>
+  // ---- Real-time top tippers from your own endpoint ----
+  const TOP_TIPPERS_URL = "/api/top-tippers.json"; 
+  // Example response:
+  // [{ "name": "User1", "amount": 500 }, { "name": "User2", "amount": 320 }]
+
+  const tippersStatusEl = document.getElementById("tippersStatus");
+
+  async function fetchTopTippers() {
+    try {
+      const res = await fetch(TOP_TIPPERS_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      if (!Array.isArray(data)) throw new Error("Invalid JSON format");
+
+      tippers = data
+        .filter((x) => x && typeof x.name === "string" && Number.isFinite(Number(x.amount)))
+        .map((x) => ({ name: x.name.trim(), amount: Math.max(0, Number(x.amount)) }))
+        .filter((x) => x.name.length > 0)
+        .sort((a, b) => b.amount - a.amount);
+
+      saveTippers();
+      renderTippers();
+
+      const now = new Date();
+      tippersStatusEl.textContent = `Updated: ${now.toLocaleTimeString()}`;
+    } catch (err) {
+      tippersStatusEl.textContent = "Live update unavailable. Showing saved list.";
+      console.error("Top tippers fetch failed:", err);
+    }
+  }
+
+  // Initial + interval refresh (every 60s)
+  fetchTopTippers();
+  setInterval(fetchTopTippers, 60000);
 
       const ibanAddressEl = document.getElementById("ibanAddress");
       const copyIbanBtn = document.getElementById("copyIbanBtn");
