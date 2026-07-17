@@ -13,37 +13,30 @@
     />
 
     <style>
-      :root {
-        --bg-image: url("https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=2000&q=80");
-        --overlay-dark: rgba(17, 22, 16, 0.7);
-        --overlay-soft: rgba(55, 46, 28, 0.42);
-        --card-bg: rgba(16, 18, 17, 0.64);
-        --card-border: rgba(241, 225, 184, 0.24);
-        --text: #f7efdb;
-        --muted: #d7c8a3;
-        --accent: #f4b74f;
-        --accent-strong: #ffcc74;
-      }
+     :root {
+  --bg-base: #12050c;
+  --bg-glow-1: #3d0f2b;
+  --bg-glow-2: #7a1f4f;
+  --overlay-dark: rgba(10, 4, 8, 0.72);
+  --overlay-soft: rgba(80, 20, 52, 0.35);
+  --card-bg: rgba(22, 10, 18, 0.62);
+  --card-border: rgba(255, 182, 213, 0.25);
+  --text: #fff3f9;
+  --muted: #f2c7da;
+  --accent: #ff5fa2;
+  --accent-strong: #ff9bc5;
+}
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
-        min-height: 100%;
-      }
-
-      body {
-        font-family: "Manrope", sans-serif;
-        color: var(--text);
-        background-image: var(--bg-image);
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        position: relative;
-      }
+body {
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 20%, var(--bg-glow-1) 0%, transparent 45%),
+    radial-gradient(circle at 80% 30%, var(--bg-glow-2) 0%, transparent 40%),
+    linear-gradient(160deg, #16070f 0%, var(--bg-base) 45%, #220b18 100%);
+  background-attachment: fixed;
+  position: relative;
+}
 
       .bg-overlay {
         position: fixed;
