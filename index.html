@@ -87,7 +87,8 @@
       }
 
       h1,
-      h2 {
+      h2,
+      h3 {
         font-family: "Cinzel", serif;
         margin: 0 0 10px;
       }
@@ -193,11 +194,19 @@
         margin-top: 12px;
       }
 
-      /* BTC donation card */
+      .bank-card,
       .crypto-card {
         margin-top: 14px;
         padding: 14px;
         border-radius: 12px;
+      }
+
+      .bank-card {
+        background: rgba(142, 189, 255, 0.09);
+        border: 1px solid rgba(142, 189, 255, 0.35);
+      }
+
+      .crypto-card {
         background: rgba(255, 200, 87, 0.08);
         border: 1px solid rgba(255, 200, 87, 0.28);
       }
@@ -356,27 +365,27 @@
           <p class="muted">Community favorites this week</p>
         </div>
 
-       <div class="models-grid">
-  <article class="model-card">
-    <img
-      class="model-image"
-      src="https://jianubogdan0-blip.github.io/www.velvetviv.com/model1.jpeg"
-      alt="Featured model 1"
-      loading="lazy"
-    />
-    <p class="model-caption">Model 1</p>
-  </article>
+        <div class="models-grid">
+          <article class="model-card">
+            <img
+              class="model-image"
+              src="https://jianubogdan0-blip.github.io/www.velvetviv.com/model1.jpeg"
+              alt="Featured model 1"
+              loading="lazy"
+            />
+            <p class="model-caption">Model 1</p>
+          </article>
 
-  <article class="model-card">
-    <img
-      class="model-image"
-      src="https://jianubogdan0-blip.github.io/www.velvetviv.com/model2.jpeg"
-      alt="Featured model 2"
-      loading="lazy"
-    />
-    <p class="model-caption">Model 2</p>
-  </article>
-</div>
+          <article class="model-card">
+            <img
+              class="model-image"
+              src="https://jianubogdan0-blip.github.io/www.velvetviv.com/model2.jpeg"
+              alt="Featured model 2"
+              loading="lazy"
+            />
+            <p class="model-caption">Model 2</p>
+          </article>
+        </div>
       </section>
 
       <section class="card grid-two">
@@ -404,15 +413,27 @@
           <p id="progressPercent" class="muted">0% funded</p>
 
           <form id="goalForm" class="goal-form">
-            <label for="currentRaised">Update raised amount (USD)</label>
+            <label for="currentRaised">I donated this amount (USD)</label>
             <div class="input-row">
               <input id="currentRaised" type="number" min="0" step="1" placeholder="Enter amount" required />
-              <button type="submit">Update</button>
+              <button type="submit">I Donated</button>
             </div>
           </form>
 
+          <p id="donationNotice" class="copy-feedback"></p>
+
+          <div class="bank-card">
+            <h3>Bank Transfer (IBAN)</h3>
+            <p class="muted">Use this account for donations:</p>
+            <div class="wallet-row">
+              <p id="ibanAddress" class="wallet-address">RO48 REVO 0000 1038 9148 4363</p>
+              <button id="copyIbanBtn" class="copy-btn" type="button">Copy IBAN</button>
+            </div>
+            <p id="copyIbanFeedback" class="copy-feedback"></p>
+          </div>
+
           <div class="crypto-card">
-            <h3 style="margin: 0 0 6px; font-family: 'Cinzel', serif">Donate with BTC</h3>
+            <h3>Donate with BTC</h3>
             <p class="muted">Support directly with Bitcoin</p>
             <div class="wallet-row">
               <p id="btcAddress" class="wallet-address">bc1qqxkssdpjvhapeut56gdedu3p8yew0lltzn32w9</p>
@@ -446,6 +467,7 @@
       const STORAGE_KEY_AMOUNT = "cabin_goal_raised";
       const STORAGE_KEY_TIPPERS = "cabin_top_tippers";
       const BTC_ADDRESS = "bc1qqxkssdpjvhapeut56gdedu3p8yew0lltzn32w9";
+      const IBAN_ADDRESS = "RO48 REVO 0000 1038 9148 4363";
 
       const defaultTippers = [
         { name: "MoonRider", amount: 420 },
@@ -457,6 +479,7 @@
       const goalAmountEl = document.getElementById("goalAmount");
       const progressFillEl = document.getElementById("progressFill");
       const progressPercentEl = document.getElementById("progressPercent");
+      const donationNoticeEl = document.getElementById("donationNotice");
       const goalForm = document.getElementById("goalForm");
       const currentRaisedInput = document.getElementById("currentRaised");
       const tippersList = document.getElementById("tippersList");
@@ -464,12 +487,17 @@
       const tipperNameInput = document.getElementById("tipperName");
       const tipperAmountInput = document.getElementById("tipperAmount");
 
+      const ibanAddressEl = document.getElementById("ibanAddress");
+      const copyIbanBtn = document.getElementById("copyIbanBtn");
+      const copyIbanFeedbackEl = document.getElementById("copyIbanFeedback");
+
       const btcAddressEl = document.getElementById("btcAddress");
       const copyBtcBtn = document.getElementById("copyBtcBtn");
       const copyFeedbackEl = document.getElementById("copyFeedback");
 
       goalAmountEl.textContent = `/ ${formatCurrency(GOAL_TOTAL)}`;
       btcAddressEl.textContent = BTC_ADDRESS;
+      ibanAddressEl.textContent = IBAN_ADDRESS;
 
       let raisedAmount = loadRaisedAmount();
       let tippers = loadTippers();
@@ -479,13 +507,21 @@
 
       goalForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const nextValue = Number(currentRaisedInput.value);
+        const donatedValue = Number(currentRaisedInput.value);
 
-        if (Number.isNaN(nextValue) || nextValue < 0) return;
+        if (Number.isNaN(donatedValue) || donatedValue <= 0) return;
 
-        raisedAmount = nextValue;
+        // NOTE: This does NOT transfer money.
+        // It only updates on-page progress as a self-reported donation.
+        raisedAmount += donatedValue;
         localStorage.setItem(STORAGE_KEY_AMOUNT, String(raisedAmount));
         renderProgress();
+
+        donationNoticeEl.textContent = `Thank you! Please complete your bank transfer to ${IBAN_ADDRESS}.`;
+        setTimeout(() => {
+          donationNoticeEl.textContent = "";
+        }, 3500);
+
         goalForm.reset();
       });
 
@@ -509,6 +545,19 @@
         saveTippers();
         renderTippers();
         tipperForm.reset();
+      });
+
+      copyIbanBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(IBAN_ADDRESS);
+          copyIbanFeedbackEl.textContent = "IBAN copied to clipboard.";
+        } catch {
+          copyIbanFeedbackEl.textContent = "Could not copy automatically. Please copy manually.";
+        }
+
+        setTimeout(() => {
+          copyIbanFeedbackEl.textContent = "";
+        }, 2200);
       });
 
       copyBtcBtn.addEventListener("click", async () => {
