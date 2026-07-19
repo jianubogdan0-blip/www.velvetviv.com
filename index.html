@@ -13,30 +13,30 @@
     />
 
     <style>
-   :root {
-  --bg-base: #0f0b07;
-  --bg-glow-1: #3a2a12;
-  --bg-glow-2: #6a4a1b;
-  --overlay-dark: rgba(8, 6, 4, 0.74);
-  --overlay-soft: rgba(120, 85, 30, 0.28);
-  --card-bg: rgba(20, 16, 12, 0.66);
-  --card-border: rgba(244, 183, 79, 0.28);
-  --text: #fdf6e8;
-  --muted: #e7d1a4;
-  --accent: #f4b74f;
-  --accent-strong: #ffd27a;
-}
+      :root {
+        --bg-base: #0f0b07;
+        --bg-glow-1: #3a2a12;
+        --bg-glow-2: #6a4a1b;
+        --overlay-dark: rgba(8, 6, 4, 0.74);
+        --overlay-soft: rgba(120, 85, 30, 0.28);
+        --card-bg: rgba(20, 16, 12, 0.66);
+        --card-border: rgba(244, 183, 79, 0.28);
+        --text: #fdf6e8;
+        --muted: #e7d1a4;
+        --accent: #f4b74f;
+        --accent-strong: #ffd27a;
+      }
 
-body {
-  font-family: "Manrope", sans-serif;
-  color: var(--text);
-  background:
-    radial-gradient(circle at 18% 22%, var(--bg-glow-1) 0%, transparent 46%),
-    radial-gradient(circle at 82% 28%, var(--bg-glow-2) 0%, transparent 42%),
-    linear-gradient(155deg, #120e09 0%, var(--bg-base) 48%, #1b140d 100%);
-  background-attachment: fixed;
-  position: relative;
-}
+      body {
+        font-family: "Manrope", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 18% 22%, var(--bg-glow-1) 0%, transparent 46%),
+          radial-gradient(circle at 82% 28%, var(--bg-glow-2) 0%, transparent 42%),
+          linear-gradient(155deg, #120e09 0%, var(--bg-base) 48%, #1b140d 100%);
+        background-attachment: fixed;
+        position: relative;
+      }
 
       .bg-overlay {
         position: fixed;
@@ -250,6 +250,18 @@ body {
         min-height: 1.1em;
       }
 
+      .admin-panel {
+        margin-top: 12px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .admin-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
       label {
         display: block;
         margin-bottom: 8px;
@@ -317,6 +329,10 @@ body {
         gap: 8px;
       }
 
+      .hidden {
+        display: none !important;
+      }
+
       @keyframes rise-in {
         from {
           opacity: 0;
@@ -367,8 +383,8 @@ body {
         <h1>Cabin in the Woods Fund</h1>
         <p class="subtitle">Helping raise <strong>$35,000</strong> for the cabin dream.</p>
         <p class="muted" style="margin-top: 10px;">
-  not yet but dm me for special content
-</p>
+          not yet but dm me for special content
+        </p>
       </header>
 
       <section class="card models-section">
@@ -394,14 +410,14 @@ body {
           <h2>Schedule</h2>
           <p class="muted">Hours can vary depending on the day.</p>
           <ul class="schedule-list">
-  <li><span>Monday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Tuesday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Wednesday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Thursday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Friday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Saturday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-  <li><span>Sunday</span><span>20:30 - 2:30 (UTC+3)</span></li>
-</ul>
+            <li><span>Monday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Tuesday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Wednesday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Thursday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Friday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Saturday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+            <li><span>Sunday</span><span>20:30 - 2:30 (UTC+3)</span></li>
+          </ul>
         </div>
 
         <div>
@@ -450,12 +466,28 @@ body {
       <section class="card">
         <div class="section-head">
           <h2>Top Tippers</h2>
-          <p class="muted">You can edit this list any time below.</p>
+          <p class="muted">Only owner can edit this list.</p>
+        </div>
+
+        <div id="adminPanel" class="admin-panel">
+          <div id="lockedView">
+            <div class="admin-row">
+              <button id="unlockBtn" type="button">Unlock Edit Mode</button>
+            </div>
+            <p id="unlockFeedback" class="copy-feedback"></p>
+          </div>
+
+          <div id="unlockedView" class="hidden">
+            <div class="admin-row">
+              <button id="lockBtn" type="button">Lock Edit Mode</button>
+            </div>
+            <p class="muted">Edit mode enabled on this device.</p>
+          </div>
         </div>
 
         <ul id="tippersList" class="tippers-list"></ul>
 
-        <form id="tipperForm" class="tipper-form">
+        <form id="tipperForm" class="tipper-form hidden">
           <div class="input-grid">
             <input id="tipperName" type="text" placeholder="Name" required />
             <input id="tipperAmount" type="number" min="1" step="1" placeholder="Amount (USD)" required />
@@ -469,8 +501,12 @@ body {
       const GOAL_TOTAL = 35000;
       const STORAGE_KEY_AMOUNT = "cabin_goal_raised";
       const STORAGE_KEY_TIPPERS = "cabin_top_tippers";
+      const STORAGE_KEY_ADMIN_UNLOCKED = "cabin_tippers_admin_unlocked";
       const BTC_ADDRESS = "bc1qqxkssdpjvhapeut56gdedu3p8yew0lltzn32w9";
       const IBAN_ADDRESS = "RO48 REVO 0000 1038 9148 4363";
+
+      // Change this whenever you want:
+      const ADMIN_PASSWORD = "change-me-please";
 
       const defaultTippers = [
         { name: "MoonRider", amount: 420 },
@@ -491,6 +527,13 @@ body {
       const tipperAmountInput = document.getElementById("tipperAmount");
       const tippersList = document.getElementById("tippersList");
 
+      const adminPanel = document.getElementById("adminPanel");
+      const lockedView = document.getElementById("lockedView");
+      const unlockedView = document.getElementById("unlockedView");
+      const unlockBtn = document.getElementById("unlockBtn");
+      const lockBtn = document.getElementById("lockBtn");
+      const unlockFeedbackEl = document.getElementById("unlockFeedback");
+
       const ibanAddressEl = document.getElementById("ibanAddress");
       const copyIbanBtn = document.getElementById("copyIbanBtn");
       const copyIbanFeedbackEl = document.getElementById("copyIbanFeedback");
@@ -508,6 +551,7 @@ body {
 
       renderProgress();
       renderTippers();
+      syncAdminUI();
 
       goalForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -530,6 +574,8 @@ body {
       tipperForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
+        if (!isAdminUnlocked()) return;
+
         const name = tipperNameInput.value.trim();
         const amount = Number(tipperAmountInput.value);
 
@@ -547,6 +593,28 @@ body {
         saveTippers();
         renderTippers();
         tipperForm.reset();
+      });
+
+      unlockBtn.addEventListener("click", () => {
+        const entered = window.prompt("Enter owner password to enable tipper edits:");
+        if (entered === null) return;
+
+        if (entered === ADMIN_PASSWORD) {
+          localStorage.setItem(STORAGE_KEY_ADMIN_UNLOCKED, "1");
+          unlockFeedbackEl.textContent = "";
+          syncAdminUI();
+          return;
+        }
+
+        unlockFeedbackEl.textContent = "Wrong password.";
+        setTimeout(() => {
+          unlockFeedbackEl.textContent = "";
+        }, 2200);
+      });
+
+      lockBtn.addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEY_ADMIN_UNLOCKED);
+        syncAdminUI();
       });
 
       copyIbanBtn.addEventListener("click", async () => {
@@ -575,6 +643,20 @@ body {
         }, 2200);
       });
 
+      function isAdminUnlocked() {
+        return localStorage.getItem(STORAGE_KEY_ADMIN_UNLOCKED) === "1";
+      }
+
+      function syncAdminUI() {
+        const unlocked = isAdminUnlocked();
+
+        tipperForm.classList.toggle("hidden", !unlocked);
+        lockedView.classList.toggle("hidden", unlocked);
+        unlockedView.classList.toggle("hidden", !unlocked);
+
+        renderTippers();
+      }
+
       function renderProgress() {
         const safeRaised = Math.max(0, raisedAmount);
         const ratio = Math.min(safeRaised / GOAL_TOTAL, 1);
@@ -587,6 +669,7 @@ body {
 
       function renderTippers() {
         tippersList.innerHTML = "";
+        const unlocked = isAdminUnlocked();
 
         tippers
           .slice()
@@ -596,24 +679,29 @@ body {
             const rank = document.createElement("span");
             const meta = document.createElement("div");
             const amount = document.createElement("strong");
-            const removeBtn = document.createElement("button");
 
             rank.textContent = `${index + 1}. ${tipper.name}`;
             amount.textContent = formatCurrency(tipper.amount);
 
             meta.className = "tipper-meta";
-            removeBtn.className = "remove-btn";
-            removeBtn.textContent = "Remove";
-            removeBtn.type = "button";
-
-            removeBtn.addEventListener("click", () => {
-              tippers = tippers.filter((entry) => entry.name !== tipper.name);
-              saveTippers();
-              renderTippers();
-            });
-
             meta.appendChild(amount);
-            meta.appendChild(removeBtn);
+
+            if (unlocked) {
+              const removeBtn = document.createElement("button");
+              removeBtn.className = "remove-btn";
+              removeBtn.textContent = "Remove";
+              removeBtn.type = "button";
+
+              removeBtn.addEventListener("click", () => {
+                if (!isAdminUnlocked()) return;
+                tippers = tippers.filter((entry) => entry.name !== tipper.name);
+                saveTippers();
+                renderTippers();
+              });
+
+              meta.appendChild(removeBtn);
+            }
+
             item.appendChild(rank);
             item.appendChild(meta);
             tippersList.appendChild(item);
