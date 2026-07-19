@@ -501,12 +501,31 @@
       const GOAL_TOTAL = 35000;
       const STORAGE_KEY_AMOUNT = "cabin_goal_raised";
       const STORAGE_KEY_TIPPERS = "cabin_top_tippers";
-      const STORAGE_KEY_ADMIN_UNLOCKED = "cabin_tippers_admin_unlocked";
+     <script>
+  // ...
+  const STORAGE_KEY_ADMIN_UNLOCKED = "cabin_tippers_admin_unlocked";
+  const ADMIN_PASSWORD = "parasolar100"; // exact value
+
+  // ...
+  unlockBtn.addEventListener("click", () => {
+    const entered = window.prompt("Enter owner password to enable tipper edits:");
+    if (entered === null) return;
+
+    // trim avoids accidental spaces
+    if (entered.trim() === ADMIN_PASSWORD) {
+      localStorage.setItem(STORAGE_KEY_ADMIN_UNLOCKED, "1");
+      unlockFeedbackEl.textContent = "";
+      syncAdminUI();
+      return;
+    }
+
+    unlockFeedbackEl.textContent = "Wrong password.";
+    setTimeout(() => (unlockFeedbackEl.textContent = ""), 2200);
+  });
       const BTC_ADDRESS = "bc1qqxkssdpjvhapeut56gdedu3p8yew0lltzn32w9";
       const IBAN_ADDRESS = "RO48 REVO 0000 1038 9148 4363";
 
-      // Change this whenever you want:
-      const ADMIN_PASSWORD = "parasolar100";
+   
 
       const defaultTippers = [
         { name: "MoonRider", amount: 420 },
